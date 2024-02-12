@@ -3,9 +3,11 @@
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useModalStore } from '@/stores/modal'
 import { useBebidasStore } from '@/stores/bebidas';
+import { useFavoritosStore } from '@/stores/favoritos';
 
 const modal = useModalStore()
 const bebidas = useBebidasStore()
+const favoritos = useFavoritosStore()
 
 const formatearIngredientes = () => {
   const ingredientesDiv = document.createElement('div')
@@ -64,7 +66,15 @@ const formatearIngredientes = () => {
                   type="button"
                   class="w-full rounded bg-gray-600 p-3 font-bold uppercase text-white shadow hover:bg-gray-500"
                   @click="modal.handleClickModal()"
-                  >Cerrar</button>
+                  >Cerrar
+                </button>
+                <button
+                  type="button"
+                  class="w-full rounded bg-orange-600 p-3 font-bold uppercase text-white shadow hover:bg-orange-500"
+                  @click="favoritos.handleClickFavorito()"
+                  >
+                  {{ modal.textoBoton }}
+                </button>
                 </div>
               </DialogPanel>
             </TransitionChild>
