@@ -2,15 +2,21 @@
 import { computed, handleError } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { useBebidasStore } from "@/stores/bebidas";
+import { useNotificacionStore } from "@/stores/notificaciones";
 
 const route = useRoute();
 const store = useBebidasStore();
+const notificaciones = useNotificacionStore();
 const paginaInicio = computed(() => route.name === "inicio");
 const handleSubmit = () => {
-  // TODO: Validar
-  store.obtenerRecetas()
-}
-
+  if (Object.values(store.busqueda).includes("")) {
+    notificaciones.texto = "Todos los campos son obligatorios";
+    notificaciones.mostrar = true;
+    notificaciones.error = true;
+    return;
+  }
+  store.obtenerRecetas();
+};
 </script>
 
 <template>
@@ -41,7 +47,7 @@ const handleSubmit = () => {
       </div>
 
       <form
-      v-if="paginaInicio"
+        v-if="paginaInicio"
         class="md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6"
         @submit.prevent="handleSubmit"
       >
